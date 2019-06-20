@@ -1,0 +1,31 @@
+.mb-sm-0,
+.my-sm-0 {
+  margin-bottom: 0 !important;
+  margin-right: 10px;
+}
+
+.btn-outline-secondary {
+  color: #6c757d;
+  border-color: #6c757d;
+  margin-left: 5px;
+}
+
+/* .navbar {
+  position: fixed;
+  width: 100%;
+  overflow: hidden;
+  background-color: #333;
+}
+
+.breadcrumb {
+  margin-top: 50px;
+  position: fixed;
+} */
+
+light-font .breadcrumb-item+.breadcrumb-item::before {
+  color: #fff;
+}
+
+.light-font .breadcrumb-item.active {
+  color: #cfd8dc;
+}

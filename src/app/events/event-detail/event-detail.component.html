@@ -1,0 +1,49 @@
+<div class="jumbotron jumbotron-fluid " *ngIf="event">
+  <div class="container">
+    <!-- <p class="lead">This is a modified jumbotron that occupies the entire horizontal space of its parent.</p> -->
+    <h4 class="display-4 ">{{event.name}}</h4>
+    <h5 class="card-title">Category : {{event.category}}</h5>
+    <div>
+      <!-- <p class="card-text">Name : {{event.name}}</p> -->
+      <p class="card-text">Authored by : {{event.author}}</p>
+      <p class="card-text">Date : {{event.date | date:'shortDate' }}</p>
+      <p class="card-text">Description : {{event.description}}</p>
+
+      <!-- <a class="nav-link" routerLink="/edit_event" class="btn btn-info float-left">See</a> -->
+      <!-- move Update button to event's details page-->
+      <!-- <a *ngIf="_authService.loggedIn()" class="nav-link" [routerLink]="['events'/event._id/'edit']" -->
+      <a *ngIf="_authService.loggedIn()" class="nav-link" [routerLink]="['edit']"
+        class="btn btn-success float-right">Update</a>
+      <!-- <a *ngIf="_authService.loggedIn()" class="nav-link"  class="btn btn-success float-right">Update</a> -->
+      <a *ngIf="_authService.loggedIn()" class="nav-link" class="btn btn-danger float-left" data-toggle="modal"
+        data-target="#myModal">Delete</a>
+
+      <a *ngIf="!_authService.loggedIn()" class="nav-link" class="btn btn-secondary float-right" [routerLink]="['/events']">Back to list</a>
+    </div>
+  </div>
+</div>
+
+<!-- <code class="card-text">Event ID : "{{ event._id }}" </code> -->
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Delete event</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Do you confirm ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="button" (click)="deleteEvent()" class="btn btn-danger" data-dismiss="modal"
+          [routerLink]="['/events']">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>

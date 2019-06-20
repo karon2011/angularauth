@@ -1,0 +1,46 @@
+<div class="jumbotron ">
+  <h3 class="display-4">Hello guys !</h3>
+  <p class="lead">This is our list of events</p>
+
+  <hr class="my-4">
+  <!-- <p>Enjoy !</p> -->
+
+  <div class="row mt-5">
+    <div class="col-md-4 mb-3" *ngFor="let event of events">
+      <!-- <div class="card text-center" routerLink="/events/{{event.id}}"> -->
+      <div class="card text-center" [routerLink]="['/events', event._id]">
+        <div class="card-body">
+          <h5 class="card-title">{{event.category}}</h5>
+          <p class="card-text">{{event.name}}</p>
+          <!-- <a class="nav-link" routerLink="/edit_event" class="btn btn-info float-left">See</a> -->
+          <!-- move Update button to event's details page-->
+          <!-- <a *ngIf="_authService.loggedIn()" class="nav-link" routerLink="/edit_event/'event._id'" class="btn btn-success float-right">Update</a> -->
+        </div>
+        <div class="card-footer text-muted">
+          {{event.date | date:'shortDate'}}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+    </div>
+    <div class="col align-self-center">
+      <div class="card text-center" *ngIf="_authService.loggedIn()">
+        <div class="row ">
+          <div class="card-body">
+            <h5 class="card-text">New Event</h5>
+            <a class="nav-link" routerLink="/new/edit" class="btn btn-primary">Add</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+    </div>
+  </div>
+
+  <!-- <p class="lead">
+    <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+  </p> -->
+</div>
