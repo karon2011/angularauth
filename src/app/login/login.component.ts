@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
             this._router.navigate(['/events'])
         },
         err => {
-          console.log(err)
+          console.log("err", err)
         }
       )
   }

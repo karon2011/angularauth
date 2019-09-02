@@ -21,7 +21,9 @@ export class EventsComponent implements OnInit {
         res => this.events = res,
         err => console.log(err)
       )
+
     // this._eventService
+    // this._authService.
 
   }
 }

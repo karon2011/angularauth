@@ -1,40 +1,57 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { Component, OnDestroy } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { EventService } from 'src/app/event.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs/internal/Subject';
 
 @Component({
   selector: 'app-event-edit',
   templateUrl: './event-edit.component.html',
   styleUrls: ['./event-edit.component.css']
 })
-export class EventEditComponent implements OnInit {
+export class EventEditComponent implements OnDestroy {
+
+  private onDestroy$ = new Subject<void>();
 
   events = {}
   event: any
 
-  public form: FormGroup = this.createFormGroup();
+  public myForm: FormGroup = this.createFormGroup();
 
   constructor(
-    private _eventService: EventService,
-    private fb: FormBuilder,
+    private route: ActivatedRoute,
     private router: Router,
-    private route: ActivatedRoute
+    private fb: FormBuilder,
+    private _eventService: EventService,
   ) {
     const event_id = this.route.snapshot.paramMap.get('id');
     this._eventService.getEventById(event_id)
-      .subscribe(event => {
-        // console.log("event", event)
-        this.event = event
+      .pipe(
+        takeUntil(this.onDestroy$)
+      ).subscribe(event => {
+        // this.event = event
+        // this.myForm.patchValue(this.event)
+        this.onEventchange(event)
       })
   }
 
-  ngOnInit() {
+  onEventchange(event: Event) {
+    this.event = event;
+    console.log("this.event", this.event)
+    this.myForm = this.createFormGroup();
+    this.myForm.patchValue(event || {})
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy$.next();
+    this.onDestroy$.unsubscribe();
   }
 
   private createFormGroup(): FormGroup {
     return this.fb.group({
-      name: this.fb.control("", Validators.required),
+      _id: this.fb.control("", Validators.required),
+      name: this.fb.control("", [Validators.required, Validators.minLength(5)]),
       category: this.fb.control("", Validators.required),
       date: this.fb.control("", Validators.required),
       author: this.fb.control(""),
@@ -42,35 +59,12 @@ export class EventEditComponent implements OnInit {
     })
   }
 
-  onSubmit() {
-    console.log("this.form.value", this.form.value)
-    this._eventService.updateEvent(this.form.value)
-      .subscribe(data => {
-        console.log("data", data)
-        this.event = event
-        console.log("this.event", this.event)
-        this.form.patchValue(this.event)
-        this.router.navigate(['/events/'])
+  // get form() { return this.myForm.controls; }
 
+  onSubmit() {
+    this._eventService.updateEvent(this.myForm.value)
+      .subscribe(data => {
+        this.router.navigate(['/events', this.myForm.value._id])
       })
   }
-
-  // eventForm = new FormGroup({
-  //     name : new FormControl(''),
-  //     category : new FormControl(''),
-  //     date: new FormControl(''),
-  //     author: new FormControl(''),
-  //     description: new FormControl('')
-  // })
-
-  // onsubmit() {
-  //   this._eventService.updateEvent(this.eventForm.value)
-  //   .subscribe(data => {
-  //     this.event = event
-  //     this.eventForm.patchValue(this.event)
-  //     this.router.navigate(['/events/'])
-  //   })
-  // }
-
-
 }

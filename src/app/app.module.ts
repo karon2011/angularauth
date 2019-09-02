@@ -17,6 +17,7 @@ import { EventDetailComponent } from './events/event-detail/event-detail.compone
 import { TestingComponent } from './testing/testing.component';
 import { NewSpecialComponent } from './new-special/new-special.component';
 import { HomeComponent } from './home/home.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -30,11 +31,12 @@ import { HomeComponent } from './home/home.component';
     EventDetailComponent,
     TestingComponent,
     NewSpecialComponent,
-    HomeComponent
+    HomeComponent,
+    ProfileComponent
   ],
   imports: [
-    BrowserModule, 
-    AppRoutingModule, 
+    BrowserModule,
+    AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
@@ -45,7 +47,8 @@ import { HomeComponent } from './home/home.component';
     provide: HTTP_INTERCEPTORS,
     useClass: TokenInterceptorService,
     multi: true
-  }],
+  }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

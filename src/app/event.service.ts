@@ -33,7 +33,7 @@ export class EventService {
       )
   }
 
-  getSpecialEvents() {
+  getSpecialEvents(): Observable<any> {
     return this.http.get<any>(this._specialEventsUrl)
   }
 
@@ -46,7 +46,8 @@ export class EventService {
 
   updateEvent(event): Observable<any> {
     let body = { event: event }
-    return this.http.put<any>(this._eventsUrl + "/" + event.id, event, httpOptions)
+    console.log("event", event)
+    return this.http.put<any>(this._eventsUrl + "/" + event._id, event, httpOptions)
       // return this.http.put<any>(this._eventsUrl + "/" + event.id, event, httpOptions)
       .pipe(
         catchError(this.handleError('updateEvent'))
@@ -91,5 +92,4 @@ export class EventService {
       return of(result as T);
     }
   }
-
 }

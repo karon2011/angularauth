@@ -20,7 +20,10 @@ export class SpecialEventsComponent implements OnInit {
   ngOnInit() {
     this._eventService.getSpecialEvents()
       .subscribe(
-        res => this.specialEvents = res,
+        res => {
+          this.specialEvents = res
+          console.log("res", res)
+        },
         err => {
           if (err instanceof HttpErrorResponse) {
             if (err.status === 401) { 
@@ -28,7 +31,9 @@ export class SpecialEventsComponent implements OnInit {
             }
           }
         }
-      )
-  }
-
-}
+        
+        )
+      }
+      
+    }
+    
